@@ -1,0 +1,12 @@
+# Normalkan line ending: LF di repositori, otomatis di working copy.
+* text=auto eol=lf
+
+# Berkas biner jangan disentuh sama sekali.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary

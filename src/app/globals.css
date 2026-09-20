@@ -1,0 +1,509 @@
+@import "tailwindcss";
+
+/* ============================================================
+   ANTENNA LABORATORY — DESIGN TOKENS
+   Palette : ink (hitam) · maroon · paper (putih) · graphite (abu)
+   Aturan  : hairline menggantikan shadow. Sudut tajam. Satu aksen.
+   ============================================================ */
+
+:root {
+  /* --- Ink --- */
+  --c-ink: #0b0b0c;
+  --c-ink-900: #111113;
+  --c-ink-800: #17171a;
+  --c-ink-700: #1f1f23;
+  --c-ink-600: #2b2b30;
+
+  /* --- Maroon (satu-satunya aksen) --- */
+  --c-maroon: #8e1b2c;
+  --c-maroon-deep: #5c1019;
+  --c-maroon-bright: #ad2236;
+
+  /* --- Paper --- */
+  --c-paper: #ffffff;
+  --c-paper-50: #faf9f8;
+  --c-paper-100: #f3f2f0;
+  --c-paper-200: #eae8e5;
+
+  /* --- Graphite --- */
+  --c-graphite-300: #d6d4d1;
+  --c-graphite-400: #a8a6a3;
+  --c-graphite-500: #7d7b79;
+  --c-graphite-600: #585655;
+
+  /* --- Hairline --- */
+  --c-rule: #e2e0dd;
+  --c-rule-dark: rgba(255, 255, 255, 0.14);
+
+  /* --- Type stack (variabel font diisi oleh next/font) --- */
+  --ff-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --ff-sans: var(--font-plex-sans), "Helvetica Neue", Arial, sans-serif;
+  --ff-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* --- Motion --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Layout --- */
+  --shell-x: clamp(1.25rem, 5vw, 5rem);
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --header-h: 4.25rem;
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-ink: var(--c-ink);
+  --color-ink-900: var(--c-ink-900);
+  --color-ink-800: var(--c-ink-800);
+  --color-ink-700: var(--c-ink-700);
+  --color-ink-600: var(--c-ink-600);
+
+  --color-maroon: var(--c-maroon);
+  --color-maroon-deep: var(--c-maroon-deep);
+  --color-maroon-bright: var(--c-maroon-bright);
+
+  --color-paper: var(--c-paper);
+  --color-paper-50: var(--c-paper-50);
+  --color-paper-100: var(--c-paper-100);
+  --color-paper-200: var(--c-paper-200);
+
+  --color-graphite-300: var(--c-graphite-300);
+  --color-graphite-400: var(--c-graphite-400);
+  --color-graphite-500: var(--c-graphite-500);
+  --color-graphite-600: var(--c-graphite-600);
+
+  --color-rule: var(--c-rule);
+  --color-rule-dark: var(--c-rule-dark);
+
+  --font-display: var(--ff-display);
+  --font-sans: var(--ff-sans);
+  --font-mono: var(--ff-mono);
+
+  --ease-expo: var(--ease-out-expo);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--c-rule);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 2rem);
+  }
+
+  body {
+    background-color: var(--c-paper);
+    color: var(--c-ink);
+    font-family: var(--ff-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--c-maroon);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-maroon);
+    outline-offset: 3px;
+  }
+
+  .on-dark :focus-visible,
+  [data-tone="dark"] :focus-visible {
+    outline-color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--c-paper-100);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--c-graphite-300);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--c-graphite-400);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* --- Shell --- */
+  .shell {
+    width: 100%;
+    max-width: 92rem;
+    margin-inline: auto;
+    padding-inline: var(--shell-x);
+  }
+
+  .section-y {
+    padding-block: var(--section-y);
+  }
+
+  /* --- Skala tipografi --- */
+  .t-display {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6.2vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+
+  /* Masthead hero: rata tengah, memuat nama laboratorium saja.
+     "We Are" diturunkan jadi sisipan kecil, sehingga baris display tinggal
+     18 karakter dan batas atasnya bisa dinaikkan ke 6rem tanpa meluber. */
+  .t-masthead {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6.5vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  /* Tinggi hero satu layar, dikurangi header lengket. */
+  .hero-fill {
+    min-height: calc(100vh - var(--header-h));
+    min-height: calc(100svh - var(--header-h));
+  }
+
+  /* Tabir foto: gelap di bawah nav, kolam redup di belakang teks tengah,
+     gelap lagi di kaki. Bukan wash rata — langit dan menara tetap terbaca. */
+  .hero-veil::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 72% 56% at 50% 50%,
+        rgba(11, 11, 12, 0.62) 0%,
+        rgba(11, 11, 12, 0.36) 58%,
+        rgba(11, 11, 12, 0.26) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(11, 11, 12, 0.8) 0%,
+        rgba(11, 11, 12, 0.12) 26%,
+        rgba(11, 11, 12, 0.22) 68%,
+        rgba(11, 11, 12, 0.88) 100%
+      );
+  }
+
+  .t-h1 {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: clamp(2.05rem, 4.4vw, 3.7rem);
+    line-height: 1.03;
+    letter-spacing: -0.03em;
+  }
+
+  .t-h2 {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.026em;
+  }
+
+  .t-h3 {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: clamp(1.1rem, 1.45vw, 1.35rem);
+    line-height: 1.25;
+    letter-spacing: -0.018em;
+  }
+
+  .t-lead {
+    font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+    line-height: 1.68;
+    color: var(--c-graphite-600);
+  }
+
+  .t-meta {
+    font-family: var(--ff-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.45;
+  }
+
+  .t-num {
+    font-family: var(--ff-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+
+  /* --- Underline sweep --- */
+  .link-sweep {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.45s var(--ease-out-expo);
+  }
+  .group:hover .link-sweep,
+  .link-sweep:hover {
+    background-size: 100% 1px;
+  }
+
+  /* --- Hairline grid: celah 1px memperlihatkan warna latar --- */
+  .rule-grid {
+    display: grid;
+    gap: 1px;
+    background-color: var(--c-rule);
+  }
+  .rule-grid > * {
+    background-color: var(--c-paper);
+  }
+  .rule-grid-dark {
+    background-color: var(--c-rule-dark);
+  }
+  .rule-grid-dark > * {
+    background-color: var(--c-ink);
+  }
+
+  /* --- Prose --- */
+  .prose-lab {
+    max-width: 42rem;
+  }
+  .prose-lab > * + * {
+    margin-top: 1.35em;
+  }
+  .prose-lab h2 {
+    font-size: clamp(1.3rem, 1.9vw, 1.65rem);
+    margin-top: 2.6em;
+    margin-bottom: -0.4em;
+  }
+  .prose-lab h3 {
+    font-size: 1.075rem;
+    margin-top: 2.2em;
+    margin-bottom: -0.55em;
+  }
+  .prose-lab p {
+    color: var(--c-graphite-600);
+  }
+  .prose-lab strong {
+    color: var(--c-ink);
+    font-weight: 600;
+  }
+  .prose-lab ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .prose-lab li {
+    position: relative;
+    padding-left: 1.4rem;
+    color: var(--c-graphite-600);
+  }
+  .prose-lab li + li {
+    margin-top: 0.6rem;
+  }
+  .prose-lab li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.82em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--c-maroon);
+  }
+  .prose-lab blockquote {
+    border-left: 2px solid var(--c-maroon);
+    padding-left: 1.5rem;
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    line-height: 1.45;
+    letter-spacing: -0.015em;
+    color: var(--c-ink);
+  }
+
+  /* --- Reveal --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.75s var(--ease-out-expo),
+      transform 0.75s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal[data-shown="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Varian bertahap: induknya diam, anak-anak langsungnya masuk berurutan.
+     Jeda hanya dipasang pada keadaan tampil, supaya tidak ikut tertunda bila
+     elemen disembunyikan kembali. */
+  .reveal-group > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.7s var(--ease-out-expo),
+      transform 0.7s var(--ease-out-expo);
+  }
+  .reveal-group[data-shown="true"] > * {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(2) {
+    transition-delay: 55ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(3) {
+    transition-delay: 110ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(4) {
+    transition-delay: 165ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(5) {
+    transition-delay: 220ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(6) {
+    transition-delay: 275ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(7) {
+    transition-delay: 330ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(8) {
+    transition-delay: 385ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(9) {
+    transition-delay: 440ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(10) {
+    transition-delay: 495ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(11) {
+    transition-delay: 495ms;
+  }
+  .reveal-group[data-shown="true"] > *:nth-child(12) {
+    transition-delay: 495ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-group > * {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+}
+
+@utility rule-t {
+  border-top: 1px solid var(--c-rule);
+}
+@utility rule-b {
+  border-bottom: 1px solid var(--c-rule);
+}
+@utility rule-l {
+  border-left: 1px solid var(--c-rule);
+}
+@utility rule-r {
+  border-right: 1px solid var(--c-rule);
+}
+@utility rule-t-d {
+  border-top: 1px solid var(--c-rule-dark);
+}
+@utility rule-b-d {
+  border-bottom: 1px solid var(--c-rule-dark);
+}
+@utility rule-l-d {
+  border-left: 1px solid var(--c-rule-dark);
+}
+
+/* ==================================================================
+   Transisi antarhalaman.
+
+   React <ViewTransition default="page"> memberi kelas "page" pada
+   snapshot konten utama. Cangkang halaman (header dan footer) sengaja
+   tidak dianimasikan: isinya sama di setiap halaman, sehingga kalau
+   ikut memudar akan terlihat sebagai bayangan ganda.
+   ================================================================== */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* Halaman lama ditahan tetap pekat selama transisi, halaman baru muncul
+   di atasnya. Kalau yang lama ikut memudar, ada rentang waktu ketika
+   keduanya tembus pandang dan latar putih body berkelip — terlihat jelas
+   pada halaman yang diawali blok gelap. */
+::view-transition-old(.page) {
+  animation: page-hold 300ms linear both;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(.page) {
+  animation: page-enter 300ms var(--ease-out-expo) both;
+  mix-blend-mode: normal;
+}
+
+@keyframes page-hold {
+  from,
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
