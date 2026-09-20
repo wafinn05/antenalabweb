@@ -9,6 +9,46 @@
  * Kolom bertanda BELUM TERVERIFIKASI tidak ada pada sumber mana pun dan harus
  * diisi oleh pengelola laboratorium sebelum situs ditayangkan.
  */
+/**
+ * Menentukan alamat publik situs.
+ *
+ * Urutannya: NEXT_PUBLIC_SITE_URL, lalu variabel bawaan Vercel, lalu localhost.
+ *
+ * Dibuat tahan banting karena `new URL()` di metadata akan menggagalkan seluruh
+ * build bila nilainya tidak sah. Variabel lingkungan yang disetel tetapi
+ * dikosongkan menghasilkan string kosong, bukan undefined, sehingga `??` tidak
+ * menangkapnya — itu yang dulu menggagalkan build. Di sini setiap kandidat
+ * dipangkas, dilengkapi skema bila perlu, lalu diuji sungguhan dengan
+ * `new URL()` sebelum dipakai.
+ */
+function resolveSiteUrl(): string {
+  const fallback = "http://localhost:3000";
+
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.NEXT_PUBLIC_VERCEL_URL,
+    process.env.VERCEL_URL,
+  ];
+
+  for (const candidate of candidates) {
+    const value = candidate?.trim();
+    if (!value) continue;
+
+    // Variabel bawaan Vercel hanya berisi host, tanpa skema.
+    const withScheme = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+
+    try {
+      return new URL(withScheme).origin;
+    } catch {
+      // Nilai tidak sah diabaikan, lanjut ke kandidat berikutnya.
+    }
+  }
+
+  return fallback;
+}
+
 export const site = {
   name: "Laboratorium Antena",
   nameEn: "Antenna Laboratory",
@@ -22,10 +62,9 @@ export const site = {
     "Laboratorium Antena adalah salah satu laboratorium di bawah Fakultas Teknik Elektro Telkom University, dengan arah pengembangan utama pada pembinaan, pengembangan, serta peningkatan budaya ilmiah penelitian di bidang sistem antena.",
   /**
    * Alamat situs ini sendiri, dipakai metadata, sitemap, dan robots.txt.
-   * Setel NEXT_PUBLIC_SITE_URL sebelum ditayangkan — nilai cadangan di bawah
-   * hanya benar saat pengembangan lokal.
+   * Lihat resolveSiteUrl() di bawah untuk urutan sumbernya.
    */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: resolveSiteUrl(),
   locale: "id_ID",
 
   contact: {

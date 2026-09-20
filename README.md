@@ -54,9 +54,13 @@ npm run dev        # http://localhost:3000
 | `npm run lint`      | ESLint (flat config, `eslint-config-next`) |
 | `npm run typecheck` | Pemeriksaan tipe tanpa emit                |
 
-Salin `.env.example` menjadi `.env.local` dan setel `NEXT_PUBLIC_SITE_URL`
-sebelum penayangan — nilai itu dipakai metadata, `sitemap.xml`, dan
-`robots.txt`.
+Alamat publik situs diambil dari `NEXT_PUBLIC_SITE_URL`. Bila kosong atau tidak
+disetel, variabel bawaan Vercel dipakai sebagai cadangan, lalu `localhost`.
+Nilai tanpa skema (mis. `situs.vercel.app`) otomatis dilengkapi `https://`, dan
+nilai yang tidak sah diabaikan alih-alih menggagalkan build. Lihat
+`resolveSiteUrl()` di `src/content/site.ts`.
+
+Untuk pengembangan lokal, salin `.env.example` menjadi `.env.local`.
 
 > Catatan pemasangan: `typescript` dipatok ke `5.9.3` lewat `overrides` di
 > `package.json`. Tanpa patokan ini, npm berputar tanpa henti saat menyelaraskan
