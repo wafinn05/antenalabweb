@@ -1,4 +1,9 @@
 import Image from "next/image";
+// Diimpor statis, bukan lewat string path. Dengan begitu lebar dan tinggi
+// dibaca langsung dari berkas saat build, sehingga memotong atau mengganti
+// gambar tidak perlu disusul menyunting angka di bawah. Berkasnya juga
+// disajikan dengan nama ber-hash, jadi cache peramban ikut terbarui sendiri.
+import logoLockup from "../../public/images/3logo-light.png";
 import { ArrayLayout } from "@/components/figures/TechnicalFigures";
 import { CtaBand, RowList } from "@/components/sections/Common";
 import { ArrowLink, IndexMark, SectionHeader } from "@/components/ui/Primitives";
@@ -27,7 +32,7 @@ export default function HomePage() {
 function Hero() {
   return (
     <section data-tone="dark" className="bg-ink text-white">
-      <div className="hero-veil hero-fill relative flex items-center justify-center overflow-hidden">
+      <div className="hero-veil hero-fill relative flex items-center justify-center overflow-hidden py-24 sm:py-28">
         {/* Titik potong 42% dari atas: pada rasio hero yang lebar, jendela
             tampilan jatuh dari ujung mast sampai kaki teknisi. Yang terbuang
             hanya atap perumahan di kaki gambar. */}
@@ -41,28 +46,27 @@ function Hero() {
         />
 
         <div className="shell relative z-10 flex flex-col items-center text-center">
-          {/* Frasa Inggris di dalam dokumen lang="id" — ditandai agar pembaca
-              layar melafalkannya dengan benar. "We Are" tetap di dalam h1 demi
-              keutuhan kalimat, tetapi diperkecil agar bobot jatuh ke nama.
-              Maroon dipindah ke garis dan titik: sebagai teks, rasio kontrasnya
-              di atas foto ini hanya 1,45:1. */}
+          {/* Lockup dua lembaga. Dipakai versi knockout putih karena tinta asli
+              logo bernuansa navy dan abu: di atas foto ini rasio kontrasnya
+              1,45–2,08:1, jauh di bawah ambang 3:1. Putih mencapai 4,74:1.
+              Berkasnya dipangkas rapat agar kotak gambar sama persis dengan
+              isinya — sisa area transparan akan menggeser titik tengah blok. */}
           <Reveal>
-            <h1 lang="en" className="flex flex-col items-center">
-              <span className="flex items-center gap-4 text-[0.75rem] font-medium tracking-[0.34em] text-graphite-300 uppercase">
-                <span aria-hidden className="h-px w-8 bg-maroon-bright sm:w-12" />
-                We Are
-                <span aria-hidden className="h-px w-8 bg-maroon-bright sm:w-12" />
-              </span>
-              <span className="t-masthead mt-7 block max-w-[18ch]">
-                Antenna Laboratory<span className="text-maroon-bright">.</span>
-              </span>
-            </h1>
+            <Image
+              src={logoLockup}
+              alt="Fakultas Teknik Elektro Telkom University dan SATCOMMRADAR Laboratory"
+              priority
+              className="h-9 w-auto sm:h-12 lg:h-16"
+            />
           </Reveal>
 
-          <Reveal delay={120}>
-            <p className="t-meta mt-8 text-graphite-300">
-              {site.faculty} · {site.parent}
-            </p>
+          {/* Frasa Inggris di dalam dokumen lang="id" — ditandai agar pembaca
+              layar melafalkannya dengan benar. Maroon hanya dipakai pada titik:
+              sebagai teks, kontrasnya di atas foto ini tidak memadai. */}
+          <Reveal delay={90}>
+            <h1 lang="en" className="t-masthead mt-10">
+              Antenna Laboratory<span className="text-maroon-bright">.</span>
+            </h1>
           </Reveal>
         </div>
 
